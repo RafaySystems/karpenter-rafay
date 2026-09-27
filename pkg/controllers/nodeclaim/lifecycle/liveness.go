@@ -47,9 +47,13 @@ type Liveness struct {
 
 // registrationTimeout is a heuristic time that we expect the node to register within
 // If we don't see the node within this time, then we should delete the NodeClaim and try again
+//
+// Rafay: a node add provisions the whole infrastructure behind the machine and can take up to
+// 60 minutes end to end, so the window is 90 minutes (upstream: 15) to leave a margin above the
+// worst case. Upstream has no setting for this (kubernetes-sigs/karpenter#357).
 
 const (
-	registrationTimeout       = time.Minute * 60
+	registrationTimeout       = time.Minute * 90
 	registrationTimeoutReason = "registration_timeout"
 	launchTimeoutReason       = "launch_timeout"
 )
